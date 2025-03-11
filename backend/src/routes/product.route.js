@@ -3,14 +3,15 @@ import {
   createProduct,
   deleteProducts,
   getProducts,
-  updateProducts,
+  updateProduct,
 } from "../controllers/product.controller.js";
+import { upload } from "../middleware/multer.middleware.js";
 
 const router = express.Router();
 
-router.post("/", createProduct);
+router.post("/", upload.single("image"), createProduct);
 router.get("/", getProducts);
 router.delete("/:Id", deleteProducts);
-router.put("/:Id", updateProducts);
+router.put("/:Id", upload.single("image"), updateProduct);
 
 export default router;

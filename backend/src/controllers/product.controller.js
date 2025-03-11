@@ -1,20 +1,43 @@
 import mongoose from "mongoose";
 import { Product } from "../models/product.model.js";
+import { uploadOnCloudinary } from "../utils/cloudinary.js";
 
 export const createProduct = async (req, res) => {
   const product = req.body;
 
-  if (!product.title || !product.price || !product.image) {
+  if (!product.title || !product.price) {
     return res
       .status(401)
       .json({ success: false, message: "All the fields are required" });
   }
 
   try {
-    const productData = await Product.create(product);
-    res.status(200).json({
+    const imageLocalPath = req.file?.path;
+
+    if (!imageLocalPath) {
+      return res.status(400).json({
+        success: false,
+        message: "Image file is required",
+      });
+    }
+
+    const productImage = await uploadOnCloudinary(imageLocalPath);
+
+    if (!productImage) {
+      return res.status(500).json({
+        success: false,
+        message: "Error while uploading the image to Cloudinary",
+      });
+    }
+
+    const productData = await Product.create({
+      ...product,
+      image: productImage.url,
+    });
+
+    res.status(201).json({
       success: true,
-      message: "product created successfully",
+      message: "Product created successfully",
       data: productData,
     });
   } catch (error) {
@@ -67,12 +90,14 @@ export const deleteProducts = async (req, res) => {
   }
 };
 
-export const updateProducts = async (req, res) => {
+export const updateProduct = async (req, res) => {
   const { Id } = req.params;
   const product = req.body;
 
   if (!mongoose.Types.ObjectId.isValid(Id)) {
-    res.status(401).json({ success: false, message: "invalid product Id" });
+    return res
+      .status(401)
+      .json({ success: false, message: "invalid product Id" });
   }
 
   try {
@@ -83,14 +108,30 @@ export const updateProducts = async (req, res) => {
         .json({ success: false, message: "the product doesn't exists" });
     }
 
-    await Product.findByIdAndUpdate(Id, product, { set: true });
-    res
-      .status(200)
-      .json({ success: true, message: "product updated successfully" });
+    if (req.file) {
+      const updateImageLocalPath = req.file.path;
+      const updatedProductImage = await uploadOnCloudinary(
+        updateImageLocalPath
+      );
+
+      if (!updatedProductImage?.url) {
+        return res
+          .status(400)
+          .json({ success: false, message: "error while updating the image" });
+      }
+      product.image = updatedProductImage.url;
+    }
+
+    await Product.findByIdAndUpdate(Id, product, { new: true });
+
+    res.status(200).json({
+      success: true,
+      message: "product updated successfully",
+    });
   } catch (error) {
-    res.status(404).json({
+    res.status(500).json({
       success: false,
-      message: "error while updating product" || error.message,
+      message: error.message || "error while updating product",
     });
   }
 };
