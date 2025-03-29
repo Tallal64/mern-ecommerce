@@ -1,48 +1,101 @@
-import { Menu, Search, ShoppingCart } from "lucide-react";
+import { Menu, Moon, Search, ShoppingCart, Sun } from "lucide-react";
+import { Link, NavLink } from "react-router-dom";
+import { useTheme } from "@/store/theme";
+import { Button } from "./ui/button";
+
+const links = [
+  { href: "/", label: "Home" },
+  { href: "/about", label: "About" },
+  { href: "/shop", label: "Shop" },
+  { href: "/categories", label: "Categories" },
+];
 
 export default function Header() {
+  const { isDarkMode, setTheme } = useTheme();
+
+  const handleTheme = () => {
+    setTheme();
+  };
+
+  if (isDarkMode) {
+    document.body.classList.add("dark");
+  } else {
+    document.body.classList.remove("dark");
+  }
+
   return (
-    <header className="fixed top-0 left-0 right-0 bg-white z-50 shadow-sm">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex justify-between items-center h-16">
+    <header className="sticky top-0 z-50 w-full border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
+      <div className="container px-4 sm:px-6 lg:px-8 mx-auto">
+        <div className="flex h-16 items-center justify-between">
           {/* Logo */}
-          <div className="flex-shrink-0 flex items-center">
-            <h1 className="text-2xl font-bold">MINIMAL</h1>
+          <div className="flex items-center gap-2">
+            <h1 className="text-2xl font-semibold tracking-tight">
+              <span className="bg-gradient-to-r from-primary to-primary/50 bg-clip-text text-transparent">
+                MINIMAL
+              </span>
+            </h1>
           </div>
 
-          {/* Desktop Navigation */}
-          <nav className="hidden md:flex space-x-8">
-            <a href="/" className="text-gray-700 hover:text-black">
-              Home
-            </a>
-            <a href="/about" className="text-gray-700 hover:text-black">
-              About
-            </a>
-            <a href="/shop" className="text-gray-700 hover:text-black">
-              Shop
-            </a>
-            <a href="/categories" className="text-gray-700 hover:text-black">
-              Categories
-            </a>
+          <nav className="hidden md:flex items-center space-x-8">
+            {links.map((link) => (
+              <NavLink
+                key={link.href}
+                to={link.href}
+                className={({ isActive }) =>
+                  `text-sm font-medium transition-colors hover:text-primary ${
+                    isActive ? "text-primary" : "text-muted-foreground"
+                  }`
+                }
+              >
+                {link.label}
+              </NavLink>
+            ))}
           </nav>
 
           {/* Icons */}
-          <div className="flex items-center space-x-4">
-            <button className="p-2 hover:bg-gray-100 rounded-full">
-              <Search className="h-5 w-5" />
-            </button>
-            <a
-              href="/cart"
-              className="p-2 hover:bg-gray-100 rounded-full relative"
+          <div className="flex items-center space-x-2">
+            <Button
+              variant="ghost"
+              size="icon"
+              onClick={handleTheme}
+              aria-label="Toggle theme"
+              className="rounded-full text-muted-foreground hover:text-foreground"
             >
-              <ShoppingCart className="h-5 w-5" />
-              <span className="absolute top-0 right-0 bg-black text-white text-xs rounded-full h-4 w-4 flex items-center justify-center">
-                0
-              </span>
-            </a>
-            <button className="md:hidden p-2 hover:bg-gray-100 rounded-full">
+              {isDarkMode ? (
+                <Sun className="h-5 w-5" />
+              ) : (
+                <Moon className="h-5 w-5" />
+              )}
+            </Button>
+            <Button
+              variant="ghost"
+              size="icon"
+              aria-label="Search"
+              className="rounded-full text-muted-foreground hover:text-foreground"
+            >
+              <Search className="h-5 w-5" />
+            </Button>
+            <Link to="" className="relative">
+              <Button
+                variant="ghost"
+                size="icon"
+                aria-label="Shopping cart"
+                className="rounded-full text-muted-foreground hover:text-foreground"
+              >
+                <ShoppingCart className="h-5 w-5" />
+                <span className="absolute -top-1 -right-1 flex h-4 w-4 items-center justify-center rounded-full bg-primary text-[10px] font-medium text-primary-foreground">
+                  0
+                </span>
+              </Button>
+            </Link>
+            <Button
+              variant="ghost"
+              size="icon"
+              aria-label="Menu"
+              className="md:hidden rounded-full text-muted-foreground hover:text-foreground"
+            >
               <Menu className="h-5 w-5" />
-            </button>
+            </Button>
           </div>
         </div>
       </div>
