@@ -125,24 +125,30 @@ export const loginUser = async (req, res) => {
 };
 
 export const logoutUser = async (req, res) => {
-  await User.findByIdAndUpdate(
-    req.user?._id,
-    {
-      $set: {
-        refreshToken: undefined,
-      },
-    },
-    { new: true }
-  );
+  try {
+    if (!req.user?._id) {
+      return res.status(401).json({ success: false, message: "Unauthorized" });
+    }
 
-  const Options = {
-    httpOnly: true,
-    secure: true,
-  };
+    await User.findByIdAndUpdate(
+      req.user._id,
+      { $unset: { refreshToken: 1 } },
+      { new: true }
+    );
 
-  res
-    .status(200)
-    .clearCookie("accessToken", Options)
-    .clearCookie("refreshToken", Options)
-    .json({ success: true, message: "user logged out successfully" });
+    const options = {
+      httpOnly: true,
+      secure: true,
+      sameSite: "strict",
+    };
+
+    return res
+      .status(200)
+      .clearCookie("accessToken", options)
+      .clearCookie("refreshToken", options)
+      .json({ success: true, message: "User logged out successfully" });
+  } catch (error) {
+    console.error("Logout error:", error);
+    return res.status(500).json({ success: false, message: "Logout failed" });
+  }
 };

@@ -12,6 +12,7 @@ const userSchema = new Schema(
     email: {
       type: String,
       required: true,
+      trim: true,
     },
     password: {
       type: String,
@@ -50,9 +51,3 @@ userSchema.methods.generateRefreshToken = function () {
 };
 
 export const User = mongoose.model("User", userSchema);
-
-// STEP-3: in user.controller.js
-// make a generateAccessAndRefreshToken function
-
-// STEP-4: in auth.middeleware.js
-// make a function that verify token

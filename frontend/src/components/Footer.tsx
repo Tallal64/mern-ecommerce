@@ -12,8 +12,12 @@ export default function Footer() {
     <footer className="border-t">
       <div className="flex flex-col gap-y-4 items-center justify-center max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-8 pb-6">
         <div className="flex space-x-5">
-          {socialLinks.map((link) => (
-            <Link to={link.href} className="text-gray-600 hover:text-black">
+          {socialLinks.map((link, index) => (
+            <Link
+              to={link.href}
+              key={index}
+              className="text-gray-600 hover:text-black"
+            >
               <p className="h-5 w-5">{link.Icon}</p>
             </Link>
           ))}
