@@ -1,9 +1,9 @@
-import Hero from "@/pages/Home/Hero";
+import Hero from "./Hero";
 import ProductGrid from "./ProductGrid";
 
 const Home = () => {
   return (
-    <div>
+    <div className="bg-gradient-to-tl from-background to-background/50">
       <Hero />
       <ProductGrid />
     </div>

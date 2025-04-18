@@ -1,3 +1,4 @@
+import { motion } from "framer-motion";
 import ProductCard from "@/components/ProductCard";
 import { useEffect, useState } from "react";
 
@@ -11,6 +12,9 @@ type Product = {
 
 export default function ProductGrid() {
   const [products, setProducts] = useState<Product[] | null>(null);
+  const [filteredProducts, setFilteredProducts] = useState<Product[] | null>(
+    null
+  );
 
   const fetchProducts = async () => {
     const response = await fetch("http://localhost:8080/api/products");
@@ -19,20 +23,58 @@ export default function ProductGrid() {
   };
   useEffect(() => {
     fetchProducts();
-  });
-  
+  }, []);
+
+  function getRandomElements(array: Product[], n: number) {
+    return array
+      .map((item) => ({ item, sort: Math.random() })) // Assign random sort values
+      .sort((a, b) => a.sort - b.sort) // Sort by random values
+      .map(({ item }) => item) // Extract original values
+      .slice(0, n); // Get n elements
+  }
+
+  useEffect(() => {
+    const filteredProducts = products ? getRandomElements(products, 3) : [];
+    setFilteredProducts(filteredProducts);
+  }, [products]);
+
+  const container = {
+    hidden: { opacity: 0 },
+    show: {
+      opacity: 1,
+      transition: {
+        staggerChildren: 0.1,
+        delayChildren: 0.3,
+      },
+    },
+  };
+
   return (
-    <section className="py-16 bg-background">
+    <section className="py-20">
       <div className="container px-4 mx-auto">
-        <div className="text-center mb-12">
-          <h2 className="text-3xl font-bold leading-tight">
+        <motion.div
+          className="text-center mb-16 "
+          initial={{ opacity: 0, y: -20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.6 }}
+        >
+          <h2 className="text-4xl font-bold leading-tight bg-clip-text text-transparent bg-gradient-to-r from-primary to-primary/50">
             Best Selling Products
           </h2>
-          <div className="mt-2 h-1 w-24 bg-primary mx-auto rounded-full" />
-        </div>
-
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-y-20 place-items-center">
-          {products?.map((product) => (
+          <motion.div
+            className="mt-3 h-1.5 w-32 bg-gradient-to-r from-primary to-primary/50 mx-auto rounded-full"
+            initial={{ width: 0 }}
+            animate={{ width: "8rem" }}
+            transition={{ delay: 0.3, duration: 0.8 }}
+          />
+        </motion.div>
+        <motion.div
+          className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-y-16 place-items-center"
+          variants={container}
+          initial="hidden"
+          animate="show"
+        >
+          {filteredProducts?.map((product) => (
             <ProductCard
               key={product._id}
               image={product.image}
@@ -40,7 +82,7 @@ export default function ProductGrid() {
               price={product.price}
             />
           ))}
-        </div>
+        </motion.div>
       </div>
     </section>
   );
