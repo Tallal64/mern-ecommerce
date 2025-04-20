@@ -1,11 +1,11 @@
-import { Github, Instagram, Twitter } from "lucide-react";
+import { FaGithub, FaInstagram, FaXTwitter } from "react-icons/fa6";
 import { Link } from "react-router-dom";
 
 export default function Footer() {
   const socialLinks = [
-    { href: "#", Icon: <Github /> },
-    { href: "#", Icon: <Instagram /> },
-    { href: "#", Icon: <Twitter /> },
+    { href: "#", Icon: <FaGithub size={20}/> },
+    { href: "#", Icon: <FaInstagram size={20}/> },
+    { href: "#", Icon: <FaXTwitter size={20}/> },
   ];
 
   return (
@@ -16,9 +16,9 @@ export default function Footer() {
             <Link
               to={link.href}
               key={index}
-              className="text-muted-foreground hover:text-primary transition-colors duration-200" 
+              className="text-muted-foreground hover:text-primary transition-colors duration-200"
             >
-              <p className="h-5 w-5">{link.Icon}</p>
+              <p >{link.Icon}</p>
             </Link>
           ))}
         </div>

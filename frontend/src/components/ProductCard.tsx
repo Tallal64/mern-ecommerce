@@ -1,4 +1,4 @@
-import { Heart, ShoppingCart } from "lucide-react";
+import { LuHeart, LuShoppingCart } from "react-icons/lu";
 import { Card, CardContent } from "./ui/card";
 import { AspectRatio } from "@radix-ui/react-aspect-ratio";
 import { motion } from "framer-motion";
@@ -42,14 +42,14 @@ export default function ProductCard({
             whileHover={{ scale: 1.05 }}
             whileTap={{ scale: 0.95 }}
           >
-            <Heart className="h-4 w-4 text-rose-500" />
+            <LuHeart className="h-4 w-4 text-rose-500" />
           </motion.button>
           <motion.button
             className="flex h-8 w-8 items-center justify-center rounded-full bg-white shadow-md cursor-pointer"
             whileHover={{ scale: 1.05 }}
             whileTap={{ scale: 0.95 }}
           >
-            <ShoppingCart className="h-4 w-4 text-black" />
+            <LuShoppingCart className="h-4 w-4 text-black" />
           </motion.button>
         </motion.div>
 
@@ -79,7 +79,7 @@ export default function ProductCard({
             animate={{ y: isHovered ? -1 : 0 }}
             transition={{ duration: 0.3 }}
           >
-            <h3 className="text-xl capitalize font-medium text-primary w-full truncate mb-1">
+            <h3 className="text-lg capitalize font-medium text-primary w-full truncate mb-1">
               {title}
             </h3>
             <motion.p
@@ -98,33 +98,3 @@ export default function ProductCard({
     </motion.div>
   );
 }
-
-// <Card className="group relative overflow-hidden w-[400px] h-[485px]">
-//   <div className="absolute right-7 top-7 z-10 flex flex-col gap-2">
-//     <button className="flex h-8 w-8 items-center justify-center rounded-full bg-primary-foreground shadow-sm transition-all hover:shadow-md">
-//       <Heart className="h-4 w-4" />
-//     </button>
-//     <button className="flex h-8 w-8 items-center justify-center rounded-full bg-primary-foreground shadow-sm transition-all hover:shadow-md">
-//       <ShoppingCart className="h-4 w-4" />
-//     </button>
-//   </div>
-
-//   <div className="relative overflow-hidden bg-gray-100 rounded-xl">
-//     <AspectRatio ratio={1}>
-//       <img
-//         src={image}
-//         alt={title}
-//         className="h-full w-full object-cover transition-transform duration-300 group-hover:scale-105"
-//       />
-//     </AspectRatio>
-//   </div>
-
-//   <CardContent className="p-0 overflow-hidden">
-//     <h3 className="text-lg capitalize font-medium text-primary w-full truncate">
-//       {title}
-//     </h3>
-//     <p className="text-base text-muted-foreground">
-//       {currency} {price}
-//     </p>
-//   </CardContent>
-// </Card>

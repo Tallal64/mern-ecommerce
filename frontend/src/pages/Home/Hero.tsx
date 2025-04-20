@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { motion } from "framer-motion";
 import { Button } from "@/components/ui/button";
-import { ArrowRight } from "lucide-react";
+import { LuArrowRight } from "react-icons/lu";
 
 type Product = {
   _id: string;
@@ -73,7 +73,7 @@ export default function Hero() {
                   transition={{ repeat: Infinity, duration: 1.5 }}
                 />
                 Shop Now
-                <ArrowRight className="ml-2 h-4 w-4 transition-transform group-hover:translate-x-1" />
+                <LuArrowRight className="ml-2 h-4 w-4 transition-transform group-hover:translate-x-1" />
               </Button>
             </motion.div>
           </div>
