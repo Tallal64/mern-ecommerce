@@ -34,7 +34,7 @@ export default function ProductGrid() {
   }
 
   useEffect(() => {
-    const filteredProducts = products ? getRandomElements(products, 3) : [];
+    const filteredProducts = products ? getRandomElements(products, 4) : [];
     setFilteredProducts(filteredProducts);
   }, [products]);
 
@@ -69,7 +69,7 @@ export default function ProductGrid() {
           />
         </motion.div>
         <motion.div
-          className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-y-16 place-items-center"
+          className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-y-16 place-items-center"
           variants={container}
           initial="hidden"
           animate="show"
@@ -77,6 +77,7 @@ export default function ProductGrid() {
           {filteredProducts?.map((product) => (
             <ProductCard
               key={product._id}
+              _id={product._id}
               image={product.image}
               title={product.title}
               price={product.price}

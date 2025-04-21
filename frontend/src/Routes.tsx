@@ -3,6 +3,7 @@ import Home from "./pages/Home";
 import App from "./App";
 import Shop from "./pages/Shop";
 import About from "./pages/About";
+import ProductDetails from "./pages/Product";
 
 const RoutesConf = () => {
   return (
@@ -13,6 +14,7 @@ const RoutesConf = () => {
             <Route path="/" element={<Home />} />
             <Route path="/shop" element={<Shop />} />
             <Route path="/about" element={<About />} />
+            <Route path="/product/:_id" element={<ProductDetails />} />
           </Route>
         </Routes>
       </Router>

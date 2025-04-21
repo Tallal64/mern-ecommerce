@@ -48,7 +48,7 @@ export const createProduct = async (req, res) => {
   }
 };
 
-export const getProducts = async (_, res) => {
+export const getAllProducts = async (_, res) => {
   try {
     const products = await Product.find({});
     res.status(200).json({ success: true, data: products });
@@ -57,6 +57,29 @@ export const getProducts = async (_, res) => {
       success: false,
       message: "error when getting the products" || error.message,
     });
+  }
+};
+
+export const getProduct = async (req, res) => {
+  try {
+    const { Id } = req.params;
+
+    if (!mongoose.Types.ObjectId.isValid(Id)) {
+      return res
+        .status(400)
+        .json({ success: false, message: "invalid product Id" });
+    }
+    const product = await Product.findById(Id);
+
+    if (!product) {
+      return res
+        .status(401)
+        .json({ success: false, message: "unable to find the product" });
+    }
+
+    res.status(200).json(product);
+  } catch (error) {
+    res.status(500).json({ message: "Server Error" });
   }
 };
 
