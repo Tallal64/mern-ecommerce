@@ -93,7 +93,7 @@ export default function AboutComp() {
   );
 
   return (
-    <div className="border max-w-4xl mx-auto p-6 bg-background rounded-lg">
+    <div className="max-w-4xl mx-auto p-6 bg-background rounded-lg">
       <motion.div
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}

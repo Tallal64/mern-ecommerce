@@ -15,7 +15,7 @@ const links = [
   { href: "/", label: "Home" },
   { href: "/shop", label: "Shop" },
   { href: "/about", label: "About" },
-  { href: "/categories", label: "Categories" },
+  { href: "/contact", label: "Contact Us" },
 ];
 
 export default function Header() {
@@ -123,7 +123,7 @@ export default function Header() {
             </motion.div>
 
             <motion.div whileHover={{ scale: 1.1 }} whileTap={{ scale: 0.9 }}>
-              <Link to="" className="relative">
+              <Link to="addToCart" className="relative">
                 <Button
                   variant="ghost"
                   size="icon"
@@ -157,16 +157,18 @@ export default function Header() {
               </Button>
             </motion.div>
 
-            <motion.div whileHover={{ scale: 1.1 }} whileTap={{ scale: 0.9 }}>
-              <Button
-                variant="ghost"
-                size="icon"
-                aria-label="user"
-                className="rounded-full text-muted-foreground hover:text-foreground"
-              >
-                <LuUserRound className="h-5 w-5" />
-              </Button>
-            </motion.div>
+            <Link to={"/auth/login"}>
+              <motion.div whileHover={{ scale: 1.1 }} whileTap={{ scale: 0.9 }}>
+                <Button
+                  variant="ghost"
+                  size="icon"
+                  aria-label="user"
+                  className="rounded-full text-muted-foreground hover:text-foreground"
+                >
+                  <LuUserRound className="h-5 w-5" />
+                </Button>
+              </motion.div>
+            </Link>
           </div>
         </div>
       </div>
