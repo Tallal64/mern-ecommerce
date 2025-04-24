@@ -32,7 +32,7 @@ export default function ProductCard({
         whileHover={{ y: -8 }}
         onHoverStart={() => setIsHovered(true)}
         onHoverEnd={() => setIsHovered(false)}
-        className="w-full px-4 md:px-6  cursor-pointer"
+        className="w-full px-4 md:px-6 cursor-pointer"
       >
         <Card className="group relative overflow-hidden h-[485px] bg-transparent">
           <motion.div
