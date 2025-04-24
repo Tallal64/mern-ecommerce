@@ -90,7 +90,7 @@ export default function Header() {
                 variant="ghost"
                 size="icon"
                 aria-label="Search"
-                className="rounded-full text-muted-foreground hover:text-foreground"
+                className="rounded-full text-muted-foreground hover:text-foreground cursor-pointer"
               >
                 <LuSearch className="h-5 w-5" />
               </Button>
@@ -102,7 +102,7 @@ export default function Header() {
                 size="icon"
                 onClick={handleTheme}
                 aria-label="Toggle theme"
-                className="rounded-full text-muted-foreground hover:text-foreground"
+                className="rounded-full text-muted-foreground hover:text-foreground cursor-pointer"
               >
                 <AnimatePresence mode="wait">
                   <motion.div
@@ -128,7 +128,7 @@ export default function Header() {
                   variant="ghost"
                   size="icon"
                   aria-label="Shopping cart"
-                  className="rounded-full text-muted-foreground hover:text-foreground"
+                  className="rounded-full text-muted-foreground hover:text-foreground cursor-pointer"
                 >
                   <LuShoppingCart className="h-5 w-5" />
                   <motion.span
@@ -151,7 +151,7 @@ export default function Header() {
                 variant="ghost"
                 size="icon"
                 aria-label="Menu"
-                className="rounded-full text-muted-foreground hover:text-foreground"
+                className="rounded-full text-muted-foreground hover:text-foreground cursor-pointer"
               >
                 <LuMenu className="h-5 w-5" />
               </Button>
@@ -163,7 +163,7 @@ export default function Header() {
                   variant="ghost"
                   size="icon"
                   aria-label="user"
-                  className="rounded-full text-muted-foreground hover:text-foreground"
+                  className="rounded-full text-muted-foreground hover:text-foreground cursor-pointer"
                 >
                   <LuUserRound className="h-5 w-5" />
                 </Button>

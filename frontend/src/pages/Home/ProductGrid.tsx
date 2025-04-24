@@ -2,35 +2,26 @@ import { motion } from "framer-motion";
 import ProductCard from "@/components/ProductCard";
 import { useEffect, useState } from "react";
 import ProductCardSkeleton from "@/components/skeleton/ProductSkeleton";
+import { useProduct } from "@/store/products/productsAPIs";
 
 type Product = {
   _id: string;
   title: string;
   price: number;
   image: string;
+  categories: string;
   description: string;
 };
 
 export default function ProductGrid() {
-  const [isLoading, setIsLoading] = useState<boolean>(true);
-  const [products, setProducts] = useState<Product[] | null>(null);
+  const { getAllProducts, Products, isLoading } = useProduct();
   const [filteredProducts, setFilteredProducts] = useState<Product[] | null>(
     null
   );
 
-  const fetchProducts = async () => {
-    const response = await fetch("http://localhost:8080/api/products");
-    const data = await response.json();
-
-    if (response.ok) {
-      setIsLoading(false);
-    }
-
-    setProducts(data.data);
-  };
   useEffect(() => {
-    fetchProducts();
-  }, []);
+    getAllProducts();
+  },[getAllProducts]);
 
   function getRandomElements(array: Product[], n: number) {
     return array
@@ -41,9 +32,11 @@ export default function ProductGrid() {
   }
 
   useEffect(() => {
-    const filteredProducts = products ? getRandomElements(products, 4) : [];
-    setFilteredProducts(filteredProducts);
-  }, [products]);
+    if (Array.isArray(Products)) {
+      const filteredProducts = getRandomElements(Products, 4);
+      setFilteredProducts(filteredProducts);
+    }
+  }, [Products]);
 
   const container = {
     hidden: { opacity: 0 },

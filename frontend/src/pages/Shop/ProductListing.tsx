@@ -3,15 +3,7 @@ import ProductCard from "@/components/ProductCard";
 import { motion } from "framer-motion";
 import { useEffect, useState } from "react";
 import ProductCardSkeleton from "@/components/skeleton/ProductSkeleton";
-
-type Product = {
-  _id: string;
-  title: string;
-  price: number;
-  categories: string;
-  image: string;
-  description: string;
-};
+import { useProduct } from "@/store/products/productsAPIs";
 
 type Tab = {
   id: string;
@@ -19,24 +11,12 @@ type Tab = {
 };
 
 export default function ProductListing() {
-  const [isLoading, setIsLoading] = useState<boolean>(true);
-  const [products, setProducts] = useState<Product[] | null>(null);
+  const { isLoading, Products, getAllProducts } = useProduct();
   const [activeTab, setActiveTab] = useState("all");
 
-  const fetchProducts = async () => {
-    const response = await fetch("http://localhost:8080/api/products");
-
-    if (response.ok) {
-      setIsLoading(false);
-    }
-
-    const data = await response.json();
-    setProducts(data.data);
-  };
-
   useEffect(() => {
-    fetchProducts();
-  }, []);
+    getAllProducts();
+  }, [getAllProducts]);
 
   const tabs: Tab[] = [
     { id: "all", label: "All" },
@@ -47,8 +27,8 @@ export default function ProductListing() {
 
   const filteredProducts =
     activeTab === "all"
-      ? products
-      : products?.filter((product) => product.categories === activeTab);
+      ? Products
+      : Products?.filter((Product) => Product.categories === activeTab);
 
   const container = {
     hidden: { opacity: 0 },

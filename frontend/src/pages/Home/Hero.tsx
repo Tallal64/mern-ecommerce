@@ -1,28 +1,8 @@
-import { useEffect, useState } from "react";
 import { motion } from "framer-motion";
 import { Button } from "@/components/ui/button";
 import { LuArrowRight } from "react-icons/lu";
 
-type Product = {
-  _id: string;
-  title: string;
-  price: number;
-  image: string;
-  description: string;
-};
-
 export default function Hero() {
-  const [products, setProducts] = useState<Product[] | null>(null);
-
-  useEffect(() => {
-    const fetchProducts = async () => {
-      const response = await fetch("http://localhost:8080/api/products");
-      const data = await response.json();
-      setProducts(data.data);
-    };
-    fetchProducts();
-  });
-
   return (
     <section className="relative w-full overflow-hidden">
       <div className="container mx-auto px-4 h-full">

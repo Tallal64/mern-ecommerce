@@ -105,7 +105,7 @@ export default function ProductDetails() {
                 whileTap={{ scale: 0.97 }}
                 className="flex-1"
               >
-                <Button className="w-full gap-2 py-6" size="lg">
+                <Button className="w-full gap-2 py-6 cursor-pointer" size="lg">
                   <LuShoppingCart className="h-5 w-5" />
                   Add to Cart
                 </Button>
@@ -118,7 +118,7 @@ export default function ProductDetails() {
                 <Button
                   variant="outline"
                   size="lg"
-                  className="w-full sm:w-auto py-6"
+                  className="w-full sm:w-auto py-6 cursor-pointer"
                 >
                   <LuHeart className="h-5 w-5 mr-2" />
                   Add to Wishlist
