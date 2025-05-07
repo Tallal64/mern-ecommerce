@@ -1,9 +1,33 @@
 import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
+import { useProduct } from "@/store/products/productsAPIs";
 import { motion } from "framer-motion";
 import { useEffect, useState } from "react";
 import { LuHeart, LuShoppingCart } from "react-icons/lu";
 import { useParams } from "react-router-dom";
+
+const containerVariants = {
+  hidden: { opacity: 0 },
+  visible: {
+    opacity: 1,
+    transition: {
+      staggerChildren: 0.1,
+    },
+  },
+};
+
+const itemVariants = {
+  hidden: { opacity: 0, y: 20 },
+  visible: {
+    opacity: 1,
+    y: 0,
+    transition: { duration: 0.5 },
+  },
+};
+
+const imageVariants = {
+  hover: { scale: 1.05, transition: { duration: 0.3 } },
+};
 
 type Product = {
   _id: string;
@@ -16,40 +40,17 @@ type Product = {
 export default function ProductDetails() {
   const { _id } = useParams();
   const [product, setProduct] = useState<Product | null>(null);
-
-  const containerVariants = {
-    hidden: { opacity: 0 },
-    visible: {
-      opacity: 1,
-      transition: {
-        staggerChildren: 0.1,
-      },
-    },
-  };
-
-  const itemVariants = {
-    hidden: { opacity: 0, y: 20 },
-    visible: {
-      opacity: 1,
-      y: 0,
-      transition: { duration: 0.5 },
-    },
-  };
-
-  const imageVariants = {
-    hover: { scale: 1.05, transition: { duration: 0.3 } },
-  };
+  const { getProduct } = useProduct();
 
   // fetching product details from the API
-  const fetchProduct = async () => {
-    const response = await fetch(`http://localhost:8080/api/products/${_id}`);
-    const data = await response.json();
-    setProduct(data);
-  };
-
   useEffect(() => {
+    const fetchProduct = async () => {
+      const productData = await getProduct(_id as string);
+      setProduct(productData);
+    };
+
     fetchProduct();
-  });
+  }, [_id, getProduct]);
 
   return (
     <section className="flex items-center justify-center h-[78vh]">

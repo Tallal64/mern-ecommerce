@@ -27,7 +27,7 @@ export const useProduct = create<useProductProps>((set) => ({
   },
 
   getProduct: async (_id: string) => {
-    const response = await fetch(`/api/products/${_id}`);
+    const response = await fetch(`http://localhost:8080/api/products/${_id}`);
     const responseData = await response.json();
     return responseData;
   },
