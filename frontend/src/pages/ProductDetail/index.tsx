@@ -1,10 +1,12 @@
 import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
 import { useProduct } from "@/store/products/productsAPIs";
+import { useProductStore } from "@/store/products/useProductStore";
 import { motion } from "framer-motion";
 import { useEffect, useState } from "react";
 import { LuHeart, LuShoppingCart } from "react-icons/lu";
 import { useParams } from "react-router-dom";
+import { Product } from "@/types/products";
 
 const containerVariants = {
   hidden: { opacity: 0 },
@@ -29,18 +31,11 @@ const imageVariants = {
   hover: { scale: 1.05, transition: { duration: 0.3 } },
 };
 
-type Product = {
-  _id: string;
-  title: string;
-  price: number;
-  image: string;
-  description: string;
-};
-
 export default function ProductDetails() {
   const { _id } = useParams();
   const [product, setProduct] = useState<Product | null>(null);
   const { getProduct } = useProduct();
+  const { addToCart } = useProductStore();
 
   // fetching product details from the API
   useEffect(() => {
@@ -51,6 +46,12 @@ export default function ProductDetails() {
 
     fetchProduct();
   }, [_id, getProduct]);
+
+  const handleAddToCart = () => {
+    if (!product) return null;
+    addToCart(product as Product);
+    console.log("Product added to cart:", product);
+  };
 
   return (
     <section className="flex items-center justify-center h-[78vh]">
@@ -106,7 +107,11 @@ export default function ProductDetails() {
                 whileTap={{ scale: 0.97 }}
                 className="flex-1"
               >
-                <Button className="w-full gap-2 py-6 cursor-pointer" size="lg">
+                <Button
+                  onClick={handleAddToCart}
+                  className="w-full gap-2 py-6 cursor-pointer"
+                  size="lg"
+                >
                   <LuShoppingCart className="h-5 w-5" />
                   Add to Cart
                 </Button>
