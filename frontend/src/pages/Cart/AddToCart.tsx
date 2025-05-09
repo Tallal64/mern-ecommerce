@@ -66,7 +66,7 @@ export default function AddToCart() {
 
   return (
     <motion.div
-      className="h-[78vh] container mx-auto px-4 py-16"
+      className="min-h-[81vh] container mx-auto px-4 py-16"
       variants={containerVariants}
       initial="hidden"
       animate="visible"
@@ -125,7 +125,7 @@ export default function AddToCart() {
                       </div>
                       <button
                         onClick={() => removeItem(item._id)}
-                        className="text-sm text-red-500 dark:text-red-400 flex items-center gap-1 w-fit"
+                        className="text-sm text-red-500 dark:text-red-400 flex items-center gap-1 w-fit cursor-pointer"
                       >
                         <LuTrash2 className="h-4 w-4" />
                         Remove
@@ -148,9 +148,9 @@ export default function AddToCart() {
                       <Button
                         variant="outline"
                         size="icon"
-                        className="h-8 w-8"
+                        className="h-8 w-8 cursor-pointer"
                         onClick={() =>
-                          updateQuantity(item._id, (item.quantity || 0) + 1)
+                          updateQuantity(item._id, (item.quantity || 0) - 1)
                         }
                         disabled={(item.quantity || 0) <= 1}
                       >
@@ -160,7 +160,7 @@ export default function AddToCart() {
                       <Button
                         variant="outline"
                         size="icon"
-                        className="h-8 w-8"
+                        className="h-8 w-8 cursor-pointer"
                         onClick={() =>
                           updateQuantity(item._id, (item.quantity || 0) + 1)
                         }

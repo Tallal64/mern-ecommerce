@@ -21,7 +21,7 @@ export default function ProductGrid() {
 
   useEffect(() => {
     getAllProducts();
-  },[getAllProducts]);
+  }, [getAllProducts]);
 
   function getRandomElements(array: Product[], n: number) {
     return array
@@ -84,13 +84,7 @@ export default function ProductGrid() {
             animate="show"
           >
             {filteredProducts?.map((product) => (
-              <ProductCard
-                key={product._id}
-                _id={product._id}
-                image={product.image}
-                title={product.title}
-                price={product.price}
-              />
+              <ProductCard key={product._id} product={product} />
             ))}
           </motion.div>
         </div>

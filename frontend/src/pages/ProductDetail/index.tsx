@@ -54,7 +54,7 @@ export default function ProductDetails() {
   };
 
   return (
-    <section className="flex items-center justify-center h-[78vh]">
+    <section className="flex items-center justify-center h-[81vh]">
       <motion.div
         className="container mx-auto px-10"
         variants={containerVariants}

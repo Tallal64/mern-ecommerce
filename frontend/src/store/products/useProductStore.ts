@@ -2,8 +2,6 @@ import { Product } from "@/types/products";
 import { create } from "zustand";
 import { persist } from "zustand/middleware";
 
-
-
 type useProductStoreProps = {
   cart: Product[];
   addToCart: (product: Product) => void;

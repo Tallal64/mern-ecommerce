@@ -69,10 +69,7 @@ export default function ProductListing() {
             {filteredProducts?.map((product) => (
               <ProductCard
                 key={product._id}
-                _id={product._id}
-                image={product.image}
-                title={product.title}
-                price={product.price}
+               product={product}
               />
             ))}
           </motion.div>
