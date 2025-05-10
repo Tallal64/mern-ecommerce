@@ -55,7 +55,7 @@ export const registerUser = async (req, res) => {
     res.status(201).json({
       success: true,
       message: "user created successfully",
-      data: createdUser,
+      user: createdUser,
     });
   } catch (error) {
     res.status(500).json({
@@ -69,7 +69,7 @@ export const loginUser = async (req, res) => {
   try {
     const { username, email, password } = req.body;
 
-    if (!username && !email) {
+    if ((!username && !email) || !password) {
       return res
         .status(401)
         .json({ success: false, message: "username or email is required" });
@@ -116,7 +116,6 @@ export const loginUser = async (req, res) => {
         user: loggedInUser,
       });
   } catch (error) {
-    console.error("Error in logIn:", error); // Log the actual error for debugging
     res.status(500).json({
       success: false,
       message: "Internal server error when signing in",

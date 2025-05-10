@@ -1,9 +1,4 @@
-import { useState } from "react";
-import { motion } from "framer-motion";
-import { LuEye, LuEyeOff, LuGithub, LuMail } from "react-icons/lu";
 import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
 import {
   Card,
   CardContent,
@@ -12,23 +7,41 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import { motion } from "framer-motion";
+import { useState } from "react";
+import { LuEye, LuEyeOff, LuGithub, LuMail, LuShield } from "react-icons/lu";
 import { Link } from "react-router-dom";
 import { Checkbox } from "../ui/checkbox";
+import { useUser } from "@/store/user/userAPIs";
+import { userDataProps } from "@/types/products";
+
+const containerVariants = {
+  hidden: { opacity: 0, y: 20 },
+  visible: {
+    opacity: 1,
+    y: 0,
+    transition: {
+      duration: 0.4,
+      ease: "easeOut",
+    },
+  },
+};
 
 export default function SignupForm() {
+  const { registerUser } = useUser();
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
+  const [userData, setUserData] = useState<userDataProps>({
+    username: "",
+    email: "",
+    password: "",
+  });
 
-  const containerVariants = {
-    hidden: { opacity: 0, y: 20 },
-    visible: {
-      opacity: 1,
-      y: 0,
-      transition: {
-        duration: 0.4,
-        ease: "easeOut",
-      },
-    },
+  const createUser = async () => {
+    const responseData = await registerUser(userData);
+    console.log(responseData);
   };
 
   return (
@@ -39,19 +52,8 @@ export default function SignupForm() {
       variants={containerVariants}
     >
       <div className="flex justify-center mb-6">
-        <div className="rounded-full bg-primary/10 p-2">
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            viewBox="0 0 24 24"
-            fill="none"
-            stroke="currentColor"
-            strokeWidth="2"
-            strokeLinecap="round"
-            strokeLinejoin="round"
-            className="h-10 w-10 text-primary"
-          >
-            <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" />
-          </svg>
+        <div className="rounded-full bg-primary/10 p-3">
+          <LuShield className="" size={38} />
         </div>
       </div>
 
@@ -87,20 +89,29 @@ export default function SignupForm() {
             </div>
           </div>
 
-          <div className="grid grid-cols-2 gap-4">
-            <div className="space-y-2">
-              <Label htmlFor="firstName">First name</Label>
-              <Input id="firstName" placeholder="John" />
-            </div>
-            <div className="space-y-2">
-              <Label htmlFor="lastName">Last name</Label>
-              <Input id="lastName" placeholder="Doe" />
-            </div>
+          <div className="space-y-2">
+            <Label htmlFor="username">User Name</Label>
+            <Input
+              id="username"
+              placeholder="John"
+              value={userData.username}
+              onChange={(e) =>
+                setUserData({ ...userData, username: e.target.value })
+              }
+            />
           </div>
 
           <div className="space-y-2">
             <Label htmlFor="email">Email</Label>
-            <Input id="email" type="email" placeholder="m@example.com" />
+            <Input
+              id="email"
+              type="email"
+              placeholder="m@example.com"
+              value={userData.email}
+              onChange={(e) =>
+                setUserData({ ...userData, email: e.target.value })
+              }
+            />
           </div>
 
           <div className="space-y-2">
@@ -110,6 +121,10 @@ export default function SignupForm() {
                 id="password"
                 type={showPassword ? "text" : "password"}
                 placeholder="••••••••"
+                value={userData.password}
+                onChange={(e) =>
+                  setUserData({ ...userData, password: e.target.value })
+                }
               />
               <Button
                 type="button"
@@ -178,7 +193,7 @@ export default function SignupForm() {
           </div>
         </CardContent>
         <CardFooter className="flex flex-col">
-          <Button className="w-full mb-4" size="lg">
+          <Button onClick={createUser} className="w-full mb-4" size="lg">
             Create account
           </Button>
           <p className="text-center text-sm text-gray-600 dark:text-gray-400">

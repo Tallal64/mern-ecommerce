@@ -1,0 +1,33 @@
+import { userDataProps } from "@/types/products";
+import { create } from "zustand";
+
+type ApiResponse = {
+  success: boolean;
+  message?: string;
+  user?: {
+    id: string;
+    username: string;
+    email: string;
+  };
+};
+
+type useUserProps = {
+  registerUser: (userData: userDataProps) => Promise<ApiResponse>;
+};
+
+export const useUser = create<useUserProps>(() => ({
+  registerUser: async (userData: userDataProps) => {
+    const response = await fetch("http://localhost:8080/api/user/register", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        username: userData.username,
+        email: userData.email,
+        password: userData.password,
+      }),
+    });
+
+    const responseData: ApiResponse = await response.json();
+    return responseData;
+  },
+}));
