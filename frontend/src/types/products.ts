@@ -13,3 +13,9 @@ export type userDataProps = {
   email: string;
   password: string;
 };
+
+export type LoginCredentials = {
+  username?: string;
+  email?: string;
+  password: string;
+};

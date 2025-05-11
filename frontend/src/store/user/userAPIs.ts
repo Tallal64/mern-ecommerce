@@ -1,4 +1,4 @@
-import { userDataProps } from "@/types/products";
+import { LoginCredentials, userDataProps } from "@/types/products";
 import { create } from "zustand";
 
 type ApiResponse = {
@@ -13,6 +13,7 @@ type ApiResponse = {
 
 type useUserProps = {
   registerUser: (userData: userDataProps) => Promise<ApiResponse>;
+  loginUser: (userData: userDataProps) => void;
 };
 
 export const useUser = create<useUserProps>(() => ({
@@ -28,6 +29,20 @@ export const useUser = create<useUserProps>(() => ({
     });
 
     const responseData: ApiResponse = await response.json();
+    return responseData;
+  },
+
+  loginUser: async (credentials: LoginCredentials) => {
+    const response = await fetch("http://localhost:8080/api/user/login", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        email: credentials.email,
+        password: credentials.password,
+      }),
+    });
+
+    const responseData = await response.json();
     return responseData;
   },
 }));

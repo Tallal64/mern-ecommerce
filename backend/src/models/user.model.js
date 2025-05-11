@@ -39,12 +39,20 @@ userSchema.methods.comparePassword = async function (password) {
 };
 
 userSchema.methods.generateAccessToken = function () {
+  if (!process.env.ACCESS_TOKEN_SECRET) {
+    throw new Error("ACCESS_TOKEN_SECRET is not defined");
+  }
+
   return jwt.sign({ _id: this._id }, process.env.ACCESS_TOKEN_SECRET, {
     expiresIn: process.env.ACCESS_TOKEN_EXPIRATION,
   });
 };
 
 userSchema.methods.generateRefreshToken = function () {
+  if (!process.env.REFRESH_TOKEN_SECRET) {
+    throw new Error("REFRESH_TOKEN_SECRET is not defined");
+  }
+
   return jwt.sign({ _id: this._id }, process.env.REFRESH_TOKEN_SECRET, {
     expiresIn: process.env.REFRESH_TOKEN_EXPIRATION,
   });

@@ -70,9 +70,10 @@ export const loginUser = async (req, res) => {
     const { username, email, password } = req.body;
 
     if ((!username && !email) || !password) {
-      return res
-        .status(401)
-        .json({ success: false, message: "username or email is required" });
+      return res.status(401).json({
+        success: false,
+        message: "username or email, and password is required",
+      });
     }
 
     const user = await User.findOne({
@@ -118,7 +119,7 @@ export const loginUser = async (req, res) => {
   } catch (error) {
     res.status(500).json({
       success: false,
-      message: "Internal server error when signing in",
+      message: error.message || "Internal server error when signing in",
     });
   }
 };

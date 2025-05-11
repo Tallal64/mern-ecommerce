@@ -1,11 +1,4 @@
-import { useState } from "react";
-import { Link } from "react-router-dom";
-import { motion } from "framer-motion";
-import { LuEye, LuEyeOff, LuGithub, LuMail } from "react-icons/lu";
 import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
-import { Checkbox } from "@/components/ui/checkbox";
 import {
   Card,
   CardContent,
@@ -14,20 +7,40 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
+import { Checkbox } from "@/components/ui/checkbox";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import { useUser } from "@/store/user/userAPIs";
+import { userDataProps } from "@/types/products";
+import { motion } from "framer-motion";
+import { useState } from "react";
+import { LuEye, LuEyeOff, LuGithub, LuMail, LuShield } from "react-icons/lu";
+import { Link } from "react-router-dom";
+
+const containerVariants = {
+  hidden: { opacity: 0, y: 20 },
+  visible: {
+    opacity: 1,
+    y: 0,
+    transition: {
+      duration: 0.4,
+      ease: "easeOut",
+    },
+  },
+};
 
 export default function LoginForm() {
+  const { loginUser } = useUser();
   const [showPassword, setShowPassword] = useState(false);
+  const [userData, setUserData] = useState<userDataProps>({
+    username: "",
+    email: "",
+    password: "",
+  });
 
-  const containerVariants = {
-    hidden: { opacity: 0, y: 20 },
-    visible: {
-      opacity: 1,
-      y: 0,
-      transition: {
-        duration: 0.4,
-        ease: "easeOut",
-      },
-    },
+  const login = async () => {
+    const responseData = await loginUser(userData);
+    console.log(responseData);
   };
 
   return (
@@ -39,18 +52,7 @@ export default function LoginForm() {
     >
       <div className="flex justify-center mb-6">
         <div className="rounded-full bg-primary/10 p-2">
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            viewBox="0 0 24 24"
-            fill="none"
-            stroke="currentColor"
-            strokeWidth="2"
-            strokeLinecap="round"
-            strokeLinejoin="round"
-            className="h-10 w-10 text-primary"
-          >
-            <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" />
-          </svg>
+          <LuShield className="" size={38} />
         </div>
       </div>
 
@@ -88,7 +90,15 @@ export default function LoginForm() {
 
           <div className="space-y-2">
             <Label htmlFor="email">Email</Label>
-            <Input id="email" type="email" placeholder="m@example.com" />
+            <Input
+              id="email"
+              type="email"
+              placeholder="m@example.com"
+              value={userData.email}
+              onChange={(e) =>
+                setUserData({ ...userData, email: e.target.value })
+              }
+            />
           </div>
 
           <div className="space-y-2">
@@ -106,6 +116,10 @@ export default function LoginForm() {
                 id="password"
                 type={showPassword ? "text" : "password"}
                 placeholder="••••••••"
+                value={userData.password}
+                onChange={(e) =>
+                  setUserData({ ...userData, password: e.target.value })
+                }
               />
               <Button
                 type="button"
@@ -137,7 +151,7 @@ export default function LoginForm() {
           </div>
         </CardContent>
         <CardFooter className="flex flex-col">
-          <Button className="w-full mb-4" size="lg">
+          <Button onClick={login} className="w-full mb-4" size="lg">
             Login
           </Button>
           <p className="text-center text-sm text-gray-600 dark:text-gray-400">
