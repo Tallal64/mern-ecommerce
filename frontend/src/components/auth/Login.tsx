@@ -51,7 +51,7 @@ export default function LoginForm() {
       variants={containerVariants}
     >
       <div className="flex justify-center mb-6">
-        <div className="rounded-full bg-primary/10 p-2">
+        <div className="p-2 rounded-full bg-primary/10">
           <LuShield className="" size={38} />
         </div>
       </div>
@@ -68,11 +68,11 @@ export default function LoginForm() {
         <CardContent className="space-y-4">
           <div className="grid grid-cols-2 gap-4">
             <Button variant="outline" className="w-full">
-              <LuGithub className="mr-2 h-4 w-4" />
+              <LuGithub className="w-4 h-4 mr-2" />
               Github
             </Button>
             <Button variant="outline" className="w-full">
-              <LuMail className="mr-2 h-4 w-4" />
+              <LuMail className="w-4 h-4 mr-2" />
               Google
             </Button>
           </div>
@@ -82,7 +82,7 @@ export default function LoginForm() {
               <span className="w-full border-t dark:border-gray-700" />
             </div>
             <div className="relative flex justify-center text-xs uppercase">
-              <span className="bg-background px-2 text-muted-foreground">
+              <span className="px-2 bg-background text-muted-foreground">
                 Or continue with
               </span>
             </div>
@@ -125,13 +125,13 @@ export default function LoginForm() {
                 type="button"
                 variant="ghost"
                 size="sm"
-                className="absolute right-0 top-0 h-full px-3 py-2 hover:bg-transparent"
+                className="absolute top-0 right-0 h-full px-3 py-2 hover:bg-transparent"
                 onClick={() => setShowPassword(!showPassword)}
               >
                 {showPassword ? (
-                  <LuEyeOff className="h-4 w-4 text-gray-400" />
+                  <LuEyeOff className="w-4 h-4 text-gray-400" />
                 ) : (
-                  <LuEye className="h-4 w-4 text-gray-400" />
+                  <LuEye className="w-4 h-4 text-gray-400" />
                 )}
                 <span className="sr-only">
                   {showPassword ? "Hide password" : "Show password"}
@@ -154,7 +154,7 @@ export default function LoginForm() {
           <Button onClick={login} className="w-full mb-4" size="lg">
             Login
           </Button>
-          <p className="text-center text-sm text-gray-600 dark:text-gray-400">
+          <p className="text-sm text-center text-gray-600 dark:text-gray-400">
             Don&apos;t have an account?{" "}
             <Link to="/auth/signup" className="text-primary hover:underline">
               Sign up

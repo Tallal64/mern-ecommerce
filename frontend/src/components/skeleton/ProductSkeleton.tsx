@@ -6,7 +6,7 @@ const ProductCardSkeleton = () => {
       <Skeleton className="h-[285px] w-full rounded-xl mb-4" />
 
       <Skeleton className="h-4 mb-2" />
-      <Skeleton className="h-4 w-1/3" />
+      <Skeleton className="w-1/3 h-4" />
     </div>
   );
 };

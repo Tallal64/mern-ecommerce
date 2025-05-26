@@ -1,10 +1,5 @@
-import type React from "react";
-import { useState } from "react";
-import { motion } from "framer-motion";
-import { LuArrowLeft } from "react-icons/lu";
+import { Alert, AlertDescription } from "@/components/ui/alert";
 import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
 import {
   Card,
   CardContent,
@@ -13,7 +8,12 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
-import { Alert, AlertDescription } from "@/components/ui/alert";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import { motion } from "framer-motion";
+import type React from "react";
+import { useState } from "react";
+import { LuArrowLeft } from "react-icons/lu";
 import { Link } from "react-router-dom";
 
 export default function ForgotPasswordForm() {
@@ -45,7 +45,7 @@ export default function ForgotPasswordForm() {
       variants={containerVariants}
     >
       <div className="flex justify-center mb-6">
-        <div className="rounded-full bg-primary/10 p-2">
+        <div className="p-2 rounded-full bg-primary/10">
           <svg
             xmlns="http://www.w3.org/2000/svg"
             viewBox="0 0 24 24"
@@ -54,7 +54,7 @@ export default function ForgotPasswordForm() {
             strokeWidth="2"
             strokeLinecap="round"
             strokeLinejoin="round"
-            className="h-10 w-10 text-primary"
+            className="w-10 h-10 text-primary"
           >
             <rect width="18" height="11" x="3" y="11" rx="2" ry="2" />
             <path d="M7 11V7a5 5 0 0 1 10 0v4" />
@@ -74,7 +74,7 @@ export default function ForgotPasswordForm() {
         </CardHeader>
         <CardContent className="space-y-4">
           {isSubmitted ? (
-            <Alert className="bg-green-50 dark:bg-green-900/20 border-green-200 dark:border-green-900 text-green-800 dark:text-green-300">
+            <Alert className="text-green-800 border-green-200 bg-green-50 dark:bg-green-900/20 dark:border-green-900 dark:text-green-300">
               <AlertDescription>
                 If an account exists with that email, we've sent password reset
                 instructions to your inbox.
@@ -100,9 +100,9 @@ export default function ForgotPasswordForm() {
         <CardFooter className="flex justify-center">
           <Link
             to="/auth/login"
-            className="text-sm text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-gray-100 flex items-center"
+            className="flex items-center text-sm text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-gray-100"
           >
-            <LuArrowLeft className="mr-2 h-4 w-4" />
+            <LuArrowLeft className="w-4 h-4 mr-2" />
             Back to login
           </Link>
         </CardFooter>

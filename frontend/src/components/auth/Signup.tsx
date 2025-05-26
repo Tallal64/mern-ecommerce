@@ -9,13 +9,13 @@ import {
 } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
+import { useUser } from "@/store/user/userAPIs";
+import { userDataProps } from "@/types/products";
 import { motion } from "framer-motion";
 import { useState } from "react";
 import { LuEye, LuEyeOff, LuGithub, LuMail, LuShield } from "react-icons/lu";
 import { Link } from "react-router-dom";
 import { Checkbox } from "../ui/checkbox";
-import { useUser } from "@/store/user/userAPIs";
-import { userDataProps } from "@/types/products";
 
 const containerVariants = {
   hidden: { opacity: 0, y: 20 },
@@ -52,7 +52,7 @@ export default function SignupForm() {
       variants={containerVariants}
     >
       <div className="flex justify-center mb-6">
-        <div className="rounded-full bg-primary/10 p-3">
+        <div className="p-3 rounded-full bg-primary/10">
           <LuShield className="" size={38} />
         </div>
       </div>
@@ -69,11 +69,11 @@ export default function SignupForm() {
         <CardContent className="space-y-4">
           <div className="grid grid-cols-2 gap-4">
             <Button variant="outline" className="w-full">
-              <LuGithub className="mr-2 h-4 w-4" />
+              <LuGithub className="w-4 h-4 mr-2" />
               Github
             </Button>
             <Button variant="outline" className="w-full">
-              <LuMail className="mr-2 h-4 w-4" />
+              <LuMail className="w-4 h-4 mr-2" />
               Google
             </Button>
           </div>
@@ -83,7 +83,7 @@ export default function SignupForm() {
               <span className="w-full border-t dark:border-gray-700" />
             </div>
             <div className="relative flex justify-center text-xs uppercase">
-              <span className="bg-background px-2 text-muted-foreground">
+              <span className="px-2 bg-background text-muted-foreground">
                 Or continue with
               </span>
             </div>
@@ -130,13 +130,13 @@ export default function SignupForm() {
                 type="button"
                 variant="ghost"
                 size="sm"
-                className="absolute right-0 top-0 h-full px-3 py-2 hover:bg-transparent"
+                className="absolute top-0 right-0 h-full px-3 py-2 hover:bg-transparent"
                 onClick={() => setShowPassword(!showPassword)}
               >
                 {showPassword ? (
-                  <LuEyeOff className="h-4 w-4 text-gray-400" />
+                  <LuEyeOff className="w-4 h-4 text-gray-400" />
                 ) : (
-                  <LuEye className="h-4 w-4 text-gray-400" />
+                  <LuEye className="w-4 h-4 text-gray-400" />
                 )}
                 <span className="sr-only">
                   {showPassword ? "Hide password" : "Show password"}
@@ -160,13 +160,13 @@ export default function SignupForm() {
                 type="button"
                 variant="ghost"
                 size="sm"
-                className="absolute right-0 top-0 h-full px-3 py-2 hover:bg-transparent"
+                className="absolute top-0 right-0 h-full px-3 py-2 hover:bg-transparent"
                 onClick={() => setShowConfirmPassword(!showConfirmPassword)}
               >
                 {showConfirmPassword ? (
-                  <LuEyeOff className="h-4 w-4 text-gray-400" />
+                  <LuEyeOff className="w-4 h-4 text-gray-400" />
                 ) : (
-                  <LuEye className="h-4 w-4 text-gray-400" />
+                  <LuEye className="w-4 h-4 text-gray-400" />
                 )}
                 <span className="sr-only">
                   {showConfirmPassword ? "Hide password" : "Show password"}
@@ -196,7 +196,7 @@ export default function SignupForm() {
           <Button onClick={createUser} className="w-full mb-4" size="lg">
             Create account
           </Button>
-          <p className="text-center text-sm text-gray-600 dark:text-gray-400">
+          <p className="text-sm text-center text-gray-600 dark:text-gray-400">
             Already have an account?{" "}
             <Link to="/auth/login" className="text-primary hover:underline">
               Login

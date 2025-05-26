@@ -10,13 +10,13 @@ export default function Footer() {
 
   return (
     <footer className="border-t bg-background text-muted-foreground">
-      <div className="flex flex-col gap-y-4 items-center justify-center max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-8 pb-6">
+      <div className="flex flex-col items-center justify-center px-4 pt-8 pb-6 mx-auto gap-y-4 max-w-7xl sm:px-6 lg:px-8">
         <div className="flex space-x-5">
           {socialLinks.map((link, index) => (
             <Link
               to={link.href}
               key={index}
-              className="text-muted-foreground hover:text-primary transition-colors duration-200"
+              className="transition-colors duration-200 text-muted-foreground hover:text-primary"
             >
               <p >{link.Icon}</p>
             </Link>

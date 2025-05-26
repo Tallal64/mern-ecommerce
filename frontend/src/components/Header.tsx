@@ -1,15 +1,15 @@
-import { Link, NavLink } from "react-router-dom";
 import { useTheme } from "@/store/theme";
-import { Button } from "./ui/button";
-import { motion, AnimatePresence } from "framer-motion";
+import { AnimatePresence, motion } from "framer-motion";
 import {
   LuMenu,
   LuMoon,
+  LuSearch,
   LuShoppingCart,
   LuSun,
   LuUserRound,
-  LuSearch,
 } from "react-icons/lu";
+import { Link, NavLink } from "react-router-dom";
+import { Button } from "./ui/button";
 
 const links = [
   { href: "/", label: "Home" },
@@ -38,8 +38,8 @@ export default function Header() {
       transition={{ type: "spring", stiffness: 100, damping: 20 }}
       className="sticky top-0 z-50 w-full border-b border-border/40 bg-background/80 backdrop-blur-lg supports-[backdrop-filter]:bg-background/70"
     >
-      <div className="container px-4 sm:px-6 lg:px-8 mx-auto">
-        <div className="flex h-16 items-center justify-between">
+      <div className="container px-4 mx-auto sm:px-6 lg:px-8">
+        <div className="flex items-center justify-between h-16">
           {/* Logo */}
           <motion.div
             className="flex items-center gap-2"
@@ -49,7 +49,7 @@ export default function Header() {
             <Link to="/" className="flex items-center">
               <h1 className="text-2xl font-semibold tracking-tight">
                 <motion.span
-                  className="bg-gradient-to-r from-primary to-primary/50 bg-clip-text text-transparent"
+                  className="text-transparent bg-gradient-to-r from-primary to-primary/50 bg-clip-text"
                   initial={{ backgroundPosition: "0% 50%" }}
                   whileHover={{
                     backgroundPosition: "100% 50%",
@@ -62,7 +62,7 @@ export default function Header() {
             </Link>
           </motion.div>
 
-          <nav className="hidden md:flex items-center space-x-8">
+          <nav className="items-center hidden space-x-8 md:flex">
             {links.map((link) => (
               <motion.div
                 key={link.href}
@@ -90,9 +90,9 @@ export default function Header() {
                 variant="ghost"
                 size="icon"
                 aria-label="Search"
-                className="rounded-full text-muted-foreground hover:text-foreground cursor-pointer"
+                className="rounded-full cursor-pointer text-muted-foreground hover:text-foreground"
               >
-                <LuSearch className="h-5 w-5" />
+                <LuSearch className="w-5 h-5" />
               </Button>
             </motion.div>
 
@@ -102,7 +102,7 @@ export default function Header() {
                 size="icon"
                 onClick={handleTheme}
                 aria-label="Toggle theme"
-                className="rounded-full text-muted-foreground hover:text-foreground cursor-pointer"
+                className="rounded-full cursor-pointer text-muted-foreground hover:text-foreground"
               >
                 <AnimatePresence mode="wait">
                   <motion.div
@@ -113,9 +113,9 @@ export default function Header() {
                     transition={{ duration: 0.2 }}
                   >
                     {isDarkMode ? (
-                      <LuSun className="h-5 w-5" />
+                      <LuSun className="w-5 h-5" />
                     ) : (
-                      <LuMoon className="h-5 w-5" />
+                      <LuMoon className="w-5 h-5" />
                     )}
                   </motion.div>
                 </AnimatePresence>
@@ -128,9 +128,9 @@ export default function Header() {
                   variant="ghost"
                   size="icon"
                   aria-label="Shopping cart"
-                  className="rounded-full text-muted-foreground hover:text-foreground cursor-pointer"
+                  className="rounded-full cursor-pointer text-muted-foreground hover:text-foreground"
                 >
-                  <LuShoppingCart className="h-5 w-5" />
+                  <LuShoppingCart className="w-5 h-5" />
                   <motion.span
                     initial={{ scale: 0 }}
                     animate={{ scale: 1 }}
@@ -151,9 +151,9 @@ export default function Header() {
                 variant="ghost"
                 size="icon"
                 aria-label="Menu"
-                className="rounded-full text-muted-foreground hover:text-foreground cursor-pointer"
+                className="rounded-full cursor-pointer text-muted-foreground hover:text-foreground"
               >
-                <LuMenu className="h-5 w-5" />
+                <LuMenu className="w-5 h-5" />
               </Button>
             </motion.div>
 
@@ -163,9 +163,9 @@ export default function Header() {
                   variant="ghost"
                   size="icon"
                   aria-label="user"
-                  className="rounded-full text-muted-foreground hover:text-foreground cursor-pointer"
+                  className="rounded-full cursor-pointer text-muted-foreground hover:text-foreground"
                 >
-                  <LuUserRound className="h-5 w-5" />
+                  <LuUserRound className="w-5 h-5" />
                 </Button>
               </motion.div>
             </Link>
