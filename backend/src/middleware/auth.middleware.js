@@ -24,6 +24,7 @@ export const verifyJWT = async (req, res, next) => {
     }
 
     req.user = user;
+
     next();
   } catch (error) {
     res.status(401).json({
@@ -31,4 +32,18 @@ export const verifyJWT = async (req, res, next) => {
       message: "unauthorized request",
     });
   }
+};
+
+export const verifyAdmin = (req, res, next) => {
+  if (!req.user) {
+    return res
+      .status(401)
+      .json({ success: false, message: "Not authenticated!" });
+  }
+
+  if (req.user.role !== "admin") {
+    return res.status(403).json({ success: false, message: "Access denied!" });
+  }
+
+  next();
 };
