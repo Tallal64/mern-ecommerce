@@ -8,6 +8,7 @@ type ApiResponse = {
     id: string;
     username: string;
     email: string;
+    role: string;
   };
 };
 
@@ -25,6 +26,7 @@ export const useUser = create<useUserProps>(() => ({
         username: userData.username,
         email: userData.email,
         password: userData.password,
+        role: userData.role,
       }),
     });
 

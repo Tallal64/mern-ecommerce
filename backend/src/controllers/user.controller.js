@@ -20,15 +20,19 @@ export const registerUser = async (req, res) => {
     const { username, email, password, role } = req.body;
 
     if (!username || !email || !password || !role) {
-      return res
-        .status(401)
-        .json({ success: false, message: "All the fields are required" });
+      return res.status(401).json({ error: "All the fields are required" });
     }
 
     if (!["customer", "admin"].includes(role)) {
       return res
         .status(400)
-        .json({ success: false, message: "Invalid role. Must be either 'customer' or 'admined" });
+        .json({ error: "Invalid role. Must be either 'customer' or 'admined" });
+    }
+
+    if (password.length < 6) {
+      return res
+        .status(400)
+        .json({ error: "Password must be at least 8 characters" });
     }
 
     const existedUser = await User.findOne({
@@ -36,9 +40,7 @@ export const registerUser = async (req, res) => {
     });
 
     if (existedUser) {
-      return res
-        .status(400)
-        .json({ success: false, message: "this user already exists" });
+      return res.status(400).json({ error: "this user already exists" });
     }
 
     const user = await User.create({
@@ -53,10 +55,9 @@ export const registerUser = async (req, res) => {
     );
 
     if (!createdUser) {
-      return res.status(500).json({
-        success: false,
-        message: "something went wrong when creating the user",
-      });
+      return res
+        .status(500)
+        .json({ error: "something went wrong when creating the user" });
     }
 
     res.status(201).json({
@@ -65,10 +66,7 @@ export const registerUser = async (req, res) => {
       user: createdUser,
     });
   } catch (error) {
-    res.status(500).json({
-      success: false,
-      message: error.message || "Internal server error",
-    });
+    res.status(500).json({ error: "Internal server error" });
   }
 };
 
@@ -77,10 +75,9 @@ export const loginUser = async (req, res) => {
     const { username, email, password } = req.body;
 
     if ((!username && !email) || !password) {
-      return res.status(401).json({
-        success: false,
-        message: "username or email, and password is required",
-      });
+      return res
+        .status(401)
+        .json({ error: "username or email, and password is required" });
     }
 
     const user = await User.findOne({
@@ -88,17 +85,13 @@ export const loginUser = async (req, res) => {
     });
 
     if (!user) {
-      return res
-        .status(404)
-        .json({ success: false, message: "user does not exists" });
+      return res.status(404).json({ error: "user does not exists" });
     }
 
     const isPasswordCorrect = await user.comparePassword(password);
 
     if (!isPasswordCorrect) {
-      return res
-        .status(400)
-        .json({ success: false, message: "password is invalid" });
+      return res.status(400).json({ error: "password is invalid" });
     }
 
     const { accessToken, refreshToken } = await generateAccessAndRefreshToken(
@@ -125,8 +118,7 @@ export const loginUser = async (req, res) => {
       });
   } catch (error) {
     res.status(500).json({
-      success: false,
-      message: error.message || "Internal server error when signing in",
+      error: "Internal server error when signing in",
     });
   }
 };
@@ -134,7 +126,7 @@ export const loginUser = async (req, res) => {
 export const logoutUser = async (req, res) => {
   try {
     if (!req.user?._id) {
-      return res.status(401).json({ success: false, message: "Unauthorized" });
+      return res.status(401).json({ error: "Unauthorized" });
     }
 
     await User.findByIdAndUpdate(
@@ -156,6 +148,6 @@ export const logoutUser = async (req, res) => {
       .json({ success: true, message: "User logged out successfully" });
   } catch (error) {
     console.error("Logout error:", error);
-    return res.status(500).json({ success: false, message: "Logout failed" });
+    return res.status(500).json({ error: "Logout failed" });
   }
 };

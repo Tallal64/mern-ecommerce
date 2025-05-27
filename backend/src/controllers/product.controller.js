@@ -6,9 +6,7 @@ export const createProduct = async (req, res) => {
   const product = req.body;
 
   if (!product.title || !product.price) {
-    return res
-      .status(401)
-      .json({ success: false, message: "All the fields are required" });
+    return res.status(401).json({ error: "All the fields are required" });
   }
 
   try {
@@ -16,8 +14,7 @@ export const createProduct = async (req, res) => {
 
     if (!imageLocalPath) {
       return res.status(400).json({
-        success: false,
-        message: "Image file is required",
+        error: "Image file is required",
       });
     }
 
@@ -25,8 +22,7 @@ export const createProduct = async (req, res) => {
 
     if (!productImage) {
       return res.status(500).json({
-        success: false,
-        message: "Error while uploading the image to Cloudinary",
+        error: "Error while uploading the image to Cloudinary",
       });
     }
 
@@ -42,9 +38,7 @@ export const createProduct = async (req, res) => {
     });
   } catch (error) {
     console.error("server error", error);
-    res
-      .status(401)
-      .json({ success: false, message: "error when creating a product" });
+    res.status(401).json({ error: "error when creating a product" });
   }
 };
 
@@ -54,8 +48,7 @@ export const getAllProducts = async (_, res) => {
     res.status(200).json({ success: true, data: products });
   } catch (error) {
     res.status(401).json({
-      success: false,
-      message: "error when getting the products" || error.message,
+      error: "error when getting the products",
     });
   }
 };
@@ -65,21 +58,17 @@ export const getProduct = async (req, res) => {
     const { Id } = req.params;
 
     if (!mongoose.Types.ObjectId.isValid(Id)) {
-      return res
-        .status(400)
-        .json({ success: false, message: "invalid product Id" });
+      return res.status(400).json({ error: "invalid product Id" });
     }
     const product = await Product.findById(Id);
 
     if (!product) {
-      return res
-        .status(401)
-        .json({ success: false, message: "unable to find the product" });
+      return res.status(401).json({ error: "unable to find the product" });
     }
 
     res.status(200).json(product);
   } catch (error) {
-    res.status(500).json({ message: "Server Error" });
+    res.status(500).json({ error: "Server Error" });
   }
 };
 
@@ -87,17 +76,13 @@ export const deleteProducts = async (req, res) => {
   const { Id } = req.params;
 
   if (!mongoose.Types.ObjectId.isValid(Id)) {
-    return res
-      .status(400)
-      .json({ success: false, message: "invalid product Id" });
+    return res.status(400).json({ error: "invalid product Id" });
   }
 
   try {
     const existedProduct = await Product.findById(Id);
     if (!existedProduct) {
-      return res
-        .status(404)
-        .json({ success: false, message: "the product doesn't exists" });
+      return res.status(404).json({ error: "the product doesn't exists" });
     }
 
     await Product.findByIdAndDelete(Id);
@@ -106,9 +91,7 @@ export const deleteProducts = async (req, res) => {
       .json({ success: true, message: "product deleted successfully" });
   } catch (error) {
     res.status(500).json({
-      success: false,
-      message:
-        error.message || "something went wrong when deleting the product",
+      error: "something went wrong when deleting the product",
     });
   }
 };
@@ -118,17 +101,13 @@ export const updateProduct = async (req, res) => {
   const product = req.body;
 
   if (!mongoose.Types.ObjectId.isValid(Id)) {
-    return res
-      .status(401)
-      .json({ success: false, message: "invalid product Id" });
+    return res.status(401).json({ error: "invalid product Id" });
   }
 
   try {
     const existedProduct = await Product.findById(Id);
     if (!existedProduct) {
-      return res
-        .status(404)
-        .json({ success: false, message: "the product doesn't exists" });
+      return res.status(404).json({ error: "the product doesn't exists" });
     }
 
     if (req.file) {
@@ -140,7 +119,7 @@ export const updateProduct = async (req, res) => {
       if (!updatedProductImage?.url) {
         return res
           .status(400)
-          .json({ success: false, message: "error while updating the image" });
+          .json({ error: "error while updating the image" });
       }
       product.image = updatedProductImage.url;
     }
@@ -153,8 +132,7 @@ export const updateProduct = async (req, res) => {
     });
   } catch (error) {
     res.status(500).json({
-      success: false,
-      message: error.message || "error while updating product",
+      error: "error while updating product",
     });
   }
 };
