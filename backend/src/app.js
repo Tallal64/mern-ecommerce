@@ -6,7 +6,7 @@ const app = express();
 
 app.use(express.json()); // accept data from user/frontend
 app.use(express.urlencoded({ extended: true })); // Parse URL-encoded bodies
-app.use(cors());
+app.use(cors({ origin: "http://localhost:5173", credentials: true }));
 app.use(cookieParser());
 
 export default app;

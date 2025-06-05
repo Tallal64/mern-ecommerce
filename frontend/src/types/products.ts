@@ -13,7 +13,7 @@ export type userDataProps = {
   email: string;
   password: string;
   confirmPassword?: string;
-  role: "customer" | "admin";
+  role?: "customer" | "admin";
 };
 
 export type LoginCredentials = {

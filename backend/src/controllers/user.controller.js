@@ -11,7 +11,7 @@ const generateAccessAndRefreshToken = async (userId) => {
 
     return { accessToken, refreshToken };
   } catch (error) {
-    throw new Error("Something went wrong when generating tokens");
+    throw new Error("Something went wrong while generating tokens");
   }
 };
 
@@ -40,7 +40,7 @@ export const registerUser = async (req, res) => {
     });
 
     if (existedUser) {
-      return res.status(400).json({ error: "this user already exists" });
+      return res.status(400).json({ error: "username or email already taken" });
     }
 
     const user = await User.create({
@@ -113,7 +113,7 @@ export const loginUser = async (req, res) => {
       .cookie("refreshToken", refreshToken, Options)
       .json({
         success: true,
-        message: "user logged In successfully",
+        message: "Welcome back",
         user: loggedInUser,
       });
   } catch (error) {

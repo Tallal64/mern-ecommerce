@@ -17,12 +17,13 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
+import { useToastContext } from "@/providers/ToastProvider";
 import { useUser } from "@/store/user/userAPIs";
 import { userDataProps } from "@/types/products";
 import { motion } from "framer-motion";
 import { useState } from "react";
 import { LuEye, LuEyeOff, LuGithub, LuMail, LuShield } from "react-icons/lu";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom"; // Import useNavigate
 
 const containerVariants = {
   hidden: { opacity: 0, y: 20 },
@@ -31,7 +32,10 @@ const containerVariants = {
 
 export default function SignupForm() {
   const { registerUser } = useUser();
+  const { toast } = useToastContext();
+  const navigate = useNavigate();
   const [showPassword, setShowPassword] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
   const [userData, setUserData] = useState<userDataProps>({
     username: "",
@@ -42,16 +46,42 @@ export default function SignupForm() {
   });
 
   const createUser = async () => {
-    if (userData.password === userData.confirmPassword) {
+    if (userData.password !== userData.confirmPassword) {
+      toast({
+        title: "Passwords do not match",
+        variant: "destructive",
+      });
+      return;
+    }
+
+    setIsLoading(true);
+    try {
       const responseData = await registerUser(userData);
-      console.log(responseData);
-    } else {
-      alert("Passwords do not match");
+      if (responseData.success) {
+        toast({
+          title: responseData.message || "Registration successful",
+          variant: "success",
+        });
+        navigate("/");
+      } else {
+        toast({
+          title: responseData.error || "Registration failed",
+          variant: "destructive",
+        });
+      }
+    } catch (error) {
+      console.error("Error during user registration:", error);
+      toast({
+        title: "An unexpected error occurred",
+        variant: "destructive",
+      });
+      navigate("/auth/login");
+    } finally {
+      setIsLoading(false);
     }
   };
-
   return (
-    <div className="min-h-screen flex items-center justify-center bg-background p-4">
+    <div className="flex items-center justify-center min-h-screen p-4 bg-background">
       <motion.form
         className="w-full max-w-md"
         initial="hidden"
@@ -162,7 +192,7 @@ export default function SignupForm() {
                   type="button"
                   variant="ghost"
                   size="sm"
-                  className="absolute top-0 right-0 h-full px-3 py-2 hover:bg-transparent"
+                  className="absolute top-0 right-0 h-full px-3 py-2 cursor-pointer hover:bg-transparent"
                   onClick={() => setShowPassword(!showPassword)}
                 >
                   {showPassword ? (
@@ -196,7 +226,7 @@ export default function SignupForm() {
                   type="button"
                   variant="ghost"
                   size="sm"
-                  className="absolute top-0 right-0 h-full px-3 py-2 hover:bg-transparent"
+                  className="absolute top-0 right-0 h-full px-3 py-2 cursor-pointer hover:bg-transparent"
                   onClick={() => setShowConfirmPassword(!showConfirmPassword)}
                 >
                   {showConfirmPassword ? (
@@ -229,8 +259,13 @@ export default function SignupForm() {
             </div>
           </CardContent>
           <CardFooter className="flex flex-col">
-            <Button className="w-full mb-4" size="lg">
-              Create account
+            <Button
+              className="w-full mb-4 cursor-pointer"
+              size="lg"
+              type="submit"
+              disabled={isLoading}
+            >
+              {isLoading ? "Creating..." : "Create account"}
             </Button>
             <p className="text-sm text-center text-gray-600 dark:text-gray-400">
               Already have an account?{" "}
